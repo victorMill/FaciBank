@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Cliente {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  nascimento   DateTime
+  telefone     String
+  endereco     String
+  email        String   @unique
+  cpf          String   @unique
+  senha        String
+  status       Status   @default(ATIVO)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+  contas       Conta[]
+}
+
+enum Status {
+  ATIVO
+  INATIVO
+}
+
+model Conta {
+  id           Int       @id @default(autoincrement())
+  numero       String    @unique
+  saldo        Decimal   @default(0) @db.Decimal(10, 2)
+  status       Status    @default(ATIVO)
+  tipoConta    TipoConta
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+  encerradoEm  DateTime?
+
+  cliente   Cliente @relation(fields: [clienteId], references: [id])
+  clienteId Int
+
+  transacoesOrigem  Transacao[] @relation("TransacaoOrigem")
+  transacoesDestino Transacao[] @relation("TransacaoDestino")
+  Transacao         Transacao[]
+}
+
+model Transacao {
+  id             Int               @id @default(autoincrement())
+  valor          Decimal           @default(0) @db.Decimal(10, 2)
+  tipo           TipoTransferencia
+  dataTransacao  DateTime          @default(now())
+  atualizadoEm   DateTime          @updatedAt
+  contaOrigem    Conta?            @relation("TransacaoOrigem", fields: [contaOrigemId], references: [id])
+  contaOrigemId  Int?
+  contaDestino   Conta?            @relation("TransacaoDestino", fields: [contaDestinoId], references: [id])
+  contaDestinoId Int?
+  Conta          Conta?            @relation(fields: [contaId], references: [id])
+  contaId        Int?
+}
+
+enum TipoTransferencia {
+  TRANSFERENCIA
+  SAQUE
+  DEPOSITO
+  ESTORNO
+}
+
+enum TipoConta {
+  CORRENTE
+  POUPANCA
+}

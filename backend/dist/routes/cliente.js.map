@@ -1,0 +1,1 @@
+{"version":3,"file":"cliente.js","sourceRoot":"","sources":["../../src/routes/cliente.ts"],"names":[],"mappings":";;;;;;AAAA,qCAAiC;AACjC,yFAAiE;AAEjE,MAAM,MAAM,GAAG,IAAA,gBAAM,GAAE,CAAC;AAQL,+BAAa;AANhC,MAAM,CAAC,GAAG,CAAC,GAAG,EAAE,2BAAiB,CAAC,KAAK,CAAC,CAAC,CAAC,0BAA0B;AACpE,oEAAoE;AACpE,MAAM,CAAC,IAAI,CAAC,GAAG,EAAE,2BAAiB,CAAC,MAAM,CAAC,CAAC,CAAC,eAAe"}
